@@ -77,6 +77,18 @@ export default function HomeScreen() {
     router.push('/about-us');
   };
 
+  const handleWaiver = () => {
+    router.push('/waiver');
+  };
+
+  const handleAiAssistant = () => {
+    router.push('/ai-assist');
+  };
+
+  const handleBookNow = () => {
+    router.push('/customize');
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       {/* Header Section - no rounded borders */}
@@ -108,21 +120,21 @@ export default function HomeScreen() {
 
           {/* Action Buttons Section - Modern buttons without container */}
           <View style={styles.actionButtonsWrapper}>
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity style={styles.actionButton} onPress={handleWaiver}>
               <View style={styles.buttonIconPlaceholder}>
                 <ThemedText style={styles.buttonIcon}>🏄</ThemedText>
               </View>
               <ThemedText style={styles.actionButtonText}>Waiver</ThemedText>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity style={styles.actionButton} onPress={handleAiAssistant}>
               <View style={styles.buttonIconPlaceholder}>
                 <ThemedText style={styles.buttonIcon}>🤖</ThemedText>
               </View>
               <ThemedText style={styles.actionButtonText}>AI Assistant</ThemedText>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity style={styles.actionButton} onPress={handleBookNow}>
               <View style={styles.buttonIconPlaceholder}>
                 <ThemedText style={styles.buttonIcon}>📅</ThemedText>
               </View>

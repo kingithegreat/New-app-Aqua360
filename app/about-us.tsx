@@ -97,20 +97,6 @@ export default function AboutUsScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      {/* Header */}
-      <GlassBackground style={styles.header} intensity={80} noRadius={true}>
-        <View style={styles.headerContent}>
-          <TouchableOpacity 
-            style={styles.backButton}
-            onPress={() => router.back()}
-          >
-            <ThemedText style={styles.backButtonText}>← Back</ThemedText>
-          </TouchableOpacity>
-          <ThemedText style={styles.headerTitle}>About Us</ThemedText>
-          <View style={styles.placeholderRight} />
-        </View>
-      </GlassBackground>
-
       {/* Content */}
       <ScrollView 
         style={styles.scrollView} 
@@ -236,39 +222,6 @@ const styles = StyleSheet.create({
   },
   noRadius: {
     borderRadius: 0,
-  },
-  header: {
-    width: '100%',
-    paddingVertical: 15,
-    backgroundColor: 'rgba(33, 101, 90, 1)', // Solid color matching buttons
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.5)',
-    borderBottomLeftRadius: 20,  // Round the bottom corners
-    borderBottomRightRadius: 20,
-  },
-  headerContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-  },
-  backButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 10,
-  },
-  backButtonText: {
-    color: '#ffffff',
-    fontWeight: '600',
-    fontSize: 16,
-  },
-  headerTitle: {
-    color: '#ffffff',
-    fontWeight: '700',
-    fontSize: 20,
-    textAlign: 'center',
-  },
-  placeholderRight: {
-    width: 50, // To balance the header layout
   },
   titleSection: {
     width: '100%',
