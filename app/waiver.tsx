@@ -1,23 +1,40 @@
-import React from 'react';
-import { StyleSheet, View, ScrollView, SafeAreaView, Image, Dimensions, TouchableOpacity, Platform } from 'react-native';
-import { Stack } from 'expo-router';
+import React, { useState } from 'react';
+import { StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, View, Platform, Dimensions } from 'react-native';
+import { router } from 'expo-router';
 import { BlurView } from 'expo-blur';
+import { Checkbox } from 'expo-checkbox';
+import { Ionicons } from '@expo/vector-icons';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
-// Glass effect component
+// Glass effect component similar to about-us page
 interface GlassBackgroundProps {
   style?: any;
   intensity?: number;
   children: React.ReactNode;
   noRadius?: boolean;
+  solid?: boolean;
 }
 
-function GlassBackground({ style, intensity = 50, children, noRadius = false }: GlassBackgroundProps) {
+function GlassBackground({ style, intensity = 50, children, noRadius = false, solid = false }: GlassBackgroundProps) {
   const isIOS = Platform.OS === 'ios';
   
-  if (isIOS) {
+  if (solid) {
+    // Completely solid background with no transparency
+    return (
+      <View
+        style={[
+          styles.solidBackground,
+          noRadius ? styles.noRadius : null,
+          style
+        ]}
+      >
+        {children}
+      </View>
+    );
+  } else if (isIOS) {
     return (
       <BlurView 
         intensity={intensity} 
@@ -48,274 +65,191 @@ function GlassBackground({ style, intensity = 50, children, noRadius = false }: 
 }
 
 export default function WaiverScreen() {
-  const [agreed, setAgreed] = React.useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const tintColor = useThemeColor({}, 'tint');
+  const textColor = useThemeColor({}, 'text');
 
-  const toggleAgreed = () => {
-    setAgreed(!agreed);
-  };
-
-  const handleSubmit = () => {
-    // In a real app, this would submit the waiver agreement
-    if (agreed) {
-      alert('Waiver submitted successfully!');
-    } else {
-      alert('Please agree to the waiver terms before submitting.');
+  const handleConfirm = () => {
+    if (isChecked) {
+      // Navigate back to home
+      router.push('/');
     }
   };
 
   return (
-    <>
-      <Stack.Screen options={{ 
-        title: 'Waiver Form',
-        headerStyle: {
-          backgroundColor: '#52D6E2',
-        },
-        headerTintColor: '#21655A'
-      }} />
+    <SafeAreaView style={styles.safeArea}>
+      <ThemedView style={styles.container}>
+        <View style={styles.contentContainer}>
+          <GlassBackground style={styles.titleContainer}>
+            <ThemedText style={styles.title}>Waiver Agreement</ThemedText>
+          </GlassBackground>
 
-      <SafeAreaView style={styles.safeArea}>
-        <ScrollView 
-          style={styles.scrollView} 
-          contentContainerStyle={styles.scrollViewContent}
-        >
-          <View style={styles.container}>
-            {/* Title Section */}
-            <View style={styles.titleSection}>
-              <ThemedText style={styles.mainTitle}>Water Sports Waiver</ThemedText>
-            </View>
+          <GlassBackground style={styles.waiverContainer} solid={true}>
+            <ScrollView style={styles.scrollContainer}>
+              <ThemedText style={styles.waiverText}>
+                {`WAIVER AND RELEASE OF LIABILITY
 
-            {/* Image Banner */}
-            <View style={styles.imageBanner}>
-              <Image 
-                source={require('../assets/images/wavier image.jpg')}
-                style={styles.bannerImage}
-                resizeMode="cover"
-              />
-            </View>
-            
-            {/* Waiver Content Section with white background */}
-            <View style={styles.contentSection}>
-              <ThemedText style={styles.sectionTitle}>Release of Liability</ThemedText>
-              
-              <ThemedText style={styles.contentText}>
-                I, the undersigned, acknowledge that water sports activities including but not limited to jet skiing,
-                wakeboarding, water skiing, and tubing involve inherent risks. By participating in activities offered by Aqua 360°,
-                I voluntarily agree to assume all risks of personal injury, death, and property damage.
-              </ThemedText>
-              
-              <ThemedText style={styles.contentText}>
-                I hereby release, discharge, and covenant not to sue Aqua 360°, its owners, officers, employees,
-                and agents from all liability, claims, demands, losses, or damages caused or alleged to be caused
-                by the negligence of Aqua 360° or otherwise.
-              </ThemedText>
+By participating in activities offered by AquaLounge, you acknowledge and agree to the following terms and conditions:
 
-              <ThemedText style={styles.sectionTitle}>Medical Certification</ThemedText>
-              
-              <ThemedText style={styles.contentText}>
-                I certify that I am in good health with no physical defects that might interfere with my ability
-                to participate safely in water sports activities. I agree to abide by all rules and instructions
-                given by Aqua 360° staff.
-              </ThemedText>
+1. ACKNOWLEDGMENT OF RISKS
+I understand that water activities including but not limited to jet skiing, wakeboarding, water skiing, fishing, and biscuit rides involve inherent risks that could result in injury, disability, death, or property damage. These risks include but are not limited to:
+- Changing water flow, tides, currents, wave action, and boat wakes
+- Collision with other participants, watercraft, or objects in the water
+- Weather conditions including temperature exposure, storms, and lightning
+- Equipment failure or misuse
+- My own physical condition and physical exertion
 
-              <ThemedText style={styles.sectionTitle}>Assumption of Risk</ThemedText>
-              
-              <ThemedText style={styles.contentText}>
-                I acknowledge that water sports are physically demanding and potentially dangerous.
-                I understand that injuries may occur due to collisions, weather conditions, equipment failures,
-                or my own actions. I am participating at my own risk and responsibility.
-              </ThemedText>
-              
-              <View style={styles.agreementSection}>
-                <TouchableOpacity 
-                  style={styles.checkboxContainer} 
-                  onPress={toggleAgreed}
-                >
-                  <View style={[styles.checkbox, agreed ? styles.checkboxChecked : null]}>
-                    {agreed && <View style={styles.checkmark} />}
-                  </View>
-                  <ThemedText style={styles.checkboxLabel}>
-                    I have read, understand, and agree to the terms above
-                  </ThemedText>
-                </TouchableOpacity>
-                
-                <TouchableOpacity 
-                  style={[styles.submitButton, !agreed && styles.submitButtonDisabled]}
-                  onPress={handleSubmit}
-                  disabled={!agreed}
-                >
-                  <ThemedText style={styles.submitButtonText}>Submit Waiver</ThemedText>
-                </TouchableOpacity>
-              </View>
-            </View>
+2. ASSUMPTION OF RISK
+I voluntarily assume all risks associated with participation in these activities, whether identified or not, even if arising from the negligence of AquaLounge or others, and assume full responsibility for my participation.
 
-            {/* Additional Information */}
-            <View style={styles.additionalInfo}>
-              <ThemedText style={styles.footnoteText}>
-                This digital waiver has the same legal validity as a physical signed document.
-                For questions, please contact our staff at admin@aqua360.co.nz or call 021 2782 360.
+3. MEDICAL CONFIRMATION
+I certify that I am physically fit, can swim, and have not been advised not to participate by a qualified medical professional. I confirm that I am not under the influence of alcohol or any drugs that would impair my judgment or abilities.
+
+4. RELEASE OF LIABILITY
+I, for myself and on behalf of my heirs, assigns, personal representatives and next of kin, hereby release and hold harmless AquaLounge, its officers, officials, agents, employees, other participants, and sponsors from any and all claims, demands, losses, and liability arising out of or related to any injury, disability or death I may suffer, or loss or damage to property.
+
+5. INDEMNIFICATION
+I agree to indemnify and hold harmless AquaLounge from any claims, damages, or expenses arising from my participation in their activities.
+
+6. PHOTOGRAPHIC RELEASE
+I grant AquaLounge permission to take photographs or videos of me in connection with the activity and to use these for promotional purposes without compensation.
+
+7. COMPLIANCE WITH RULES
+I agree to comply with all rules and regulations of AquaLounge and to follow the instructions of staff members.
+
+8. SEVERABILITY
+If any portion of this waiver is found to be void or unenforceable, the remaining portions shall remain in full force and effect.
+
+By checking the box below, I acknowledge that I have read this waiver, understand its contents, and agree to be bound by its terms.`}
               </ThemedText>
-            </View>
+            </ScrollView>
+          </GlassBackground>
+
+          <View style={styles.checkboxContainer}>
+            <Checkbox
+              style={styles.checkbox}
+              value={isChecked}
+              onValueChange={setIsChecked}
+              color={isChecked ? tintColor : undefined}
+            />
+            <ThemedText style={styles.checkboxLabel}>
+              I confirm that I have read and agree to the waiver terms
+            </ThemedText>
           </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+
+          <TouchableOpacity 
+            style={[
+              styles.confirmButton, 
+              isChecked ? { backgroundColor: 'rgba(33, 101, 90, 1)', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 } : styles.disabledButton
+            ]}
+            onPress={handleConfirm}
+            disabled={!isChecked}
+          >
+            <ThemedText style={styles.confirmButtonText}>Confirm</ThemedText>
+          </TouchableOpacity>
+        </View>
+      </ThemedView>
+    </SafeAreaView>
   );
 }
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#52D6E2',
-  },
-  scrollView: {
-    flex: 1,
-    backgroundColor: '#52D6E2',
-  },
-  scrollViewContent: {
-    flexGrow: 1,
-    paddingBottom: 30,
+    backgroundColor: '#52D6E2', // Background color to match home page
   },
   container: {
     flex: 1,
+    padding: 16,
+    backgroundColor: '#52D6E2', // Adding background color here as well to ensure consistency
+  },
+  contentContainer: {
+    flex: 1,
     alignItems: 'center',
-    width: '100%',
+    justifyContent: 'center',
+    gap: 20,
+    paddingTop: 20,
   },
-  // Glass effect styles
-  glassEffect: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    overflow: 'hidden',
-    borderRadius: 15,
-  },
-  glassEffectAndroid: {
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
-    borderRadius: 15,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.5)',
-  },
-  noRadius: {
-    borderRadius: 0,
-  },
-  titleSection: {
-    width: '100%',
-    alignItems: 'center',
-    marginTop: 20,
+  titleContainer: {
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 16,
+    alignSelf: 'center',
     marginBottom: 10,
   },
-  mainTitle: {
-    fontSize: 32,
+  title: {
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#21655A',
     textAlign: 'center',
   },
-  imageBanner: {
-    width: '90%',
-    height: 180,
-    marginBottom: 20,
-    borderRadius: 15,
-    overflow: 'hidden',
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  bannerImage: {
+  waiverContainer: {
     width: '100%',
-    height: '100%',
+    height: '60%',
+    borderRadius: 16,
+    overflow: 'hidden',
+    backgroundColor: '#FFFFFF', // Ensure solid white background (no transparency)
   },
-  contentSection: {
-    width: '90%',
-    backgroundColor: '#ffffff',
-    borderRadius: 15,
-    padding: 25,
-    marginBottom: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+  scrollContainer: {
+    padding: 20,
   },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#21655A',
-    marginTop: 15,
-    marginBottom: 10,
-  },
-  contentText: {
+  waiverText: {
     fontSize: 16,
     lineHeight: 24,
-    color: '#333333',
-    marginBottom: 15,
-  },
-  agreementSection: {
-    marginTop: 20,
-    paddingTop: 20,
-    borderTopWidth: 1,
-    borderTopColor: '#e0e0e0',
+    color: '#000000', // Ensure text is visible against white background
   },
   checkboxContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginVertical: 20,
   },
   checkbox: {
-    width: 24,
-    height: 24,
-    borderWidth: 2,
-    borderColor: '#21655A',
-    borderRadius: 4,
     marginRight: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  checkboxChecked: {
-    backgroundColor: '#21655A',
-  },
-  checkmark: {
-    width: 12,
-    height: 7,
-    borderLeftWidth: 2,
-    borderBottomWidth: 2,
-    borderColor: '#ffffff',
-    transform: [{ rotate: '-45deg' }],
-    marginTop: -2,
   },
   checkboxLabel: {
-    flex: 1,
     fontSize: 16,
-    color: '#333333',
   },
-  submitButton: {
-    backgroundColor: '#21655A',
-    paddingVertical: 15,
-    borderRadius: 10,
+  confirmButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 25,
     alignItems: 'center',
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  submitButtonDisabled: {
-    backgroundColor: '#a0a0a0',
-  },
-  submitButtonText: {
-    color: '#ffffff',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  additionalInfo: {
-    width: '90%',
+    justifyContent: 'center',
     marginTop: 10,
-    marginBottom: 30,
+    width: '100%',
+    maxWidth: 300,
   },
-  footnoteText: {
-    fontSize: 14,
-    color: '#21655A',
-    textAlign: 'center',
-    fontStyle: 'italic',
+  disabledButton: {
+    backgroundColor: '#CCCCCC',
+  },
+  confirmButtonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  glassEffect: {
+    overflow: 'hidden',
+    borderRadius: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+  },
+  glassEffectAndroid: {
+    overflow: 'hidden', 
+    borderRadius: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+  },
+  solidBackground: {
+    overflow: 'hidden',
+    borderRadius: 16,
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+  },
+  noRadius: {
+    borderRadius: 0,
   },
 });
