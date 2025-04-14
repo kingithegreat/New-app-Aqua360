@@ -101,23 +101,18 @@ export default function AboutUsScreen() {
       <ScrollView 
         style={styles.scrollView} 
         contentContainerStyle={styles.scrollViewContent}
+        scrollEventThrottle={16}
       >
         <View style={styles.container}>
-          {/* Title Section */}
-          <View style={styles.titleSection}>
-            <ThemedText style={styles.mainTitle}>About Us</ThemedText>
-          </View>
-          
           {/* About Us Content Section with white background */}
           <View style={styles.contentSection}>
             <ThemedText style={styles.contentText}>
-              At AQUA 360°, we take great pride in being a family-owned business dedicated to offering thrilling jet ski hire in the stunning Bay of Plenty, where adventure meets breathtaking scenery. We genuinely value your feedback and insights on our social media platforms as they help us enhance your next experience.
+              We take great pride in being a family-owned business dedicated to offering thrilling jet ski hire in the stunning Bay of Plenty, where adventure meets breathtaking scenery. We genuinely value your feedback and insights on our social media platforms as they help us enhance your next experience.
             </ThemedText>
           </View>
 
-          {/* Services Carousel Section */}
+          {/* Services Carousel Section - Removed the header */}
           <View style={styles.carouselSection}>
-            <ThemedText style={styles.sectionTitle}>Our Services</ThemedText>
             <ScrollView 
               horizontal 
               showsHorizontalScrollIndicator={false}
@@ -137,50 +132,36 @@ export default function AboutUsScreen() {
           {/* Operating Hours Section */}
           <View style={styles.hoursSection}>
             <ThemedText style={styles.sectionTitle}>Operating Hours</ThemedText>
-            <View style={styles.hourItem}>
-              <ThemedText style={styles.hourTitle}>April to August</ThemedText>
-              <ThemedText style={styles.hourText}>Bookings only</ThemedText>
-            </View>
-            <View style={styles.hourItem}>
-              <ThemedText style={styles.hourTitle}>September to December</ThemedText>
-              <ThemedText style={styles.hourText}>Tuesday to Friday: Bookings only</ThemedText>
-              <ThemedText style={styles.hourText}>Saturday and Sunday: Open on-site at Pilot Bay Beach</ThemedText>
-            </View>
-            <View style={styles.hourItem}>
-              <ThemedText style={styles.hourTitle}>January to March</ThemedText>
-              <ThemedText style={styles.hourText}>Tuesday to Thursday: Bookings only</ThemedText>
-              <ThemedText style={styles.hourText}>Friday to Sunday: Open on-site at Pilot Bay Beach</ThemedText>
-            </View>
-            <View style={styles.hourItem}>
-              <ThemedText style={styles.hourTitle}>Christmas Period</ThemedText>
-              <ThemedText style={styles.hourText}>December 19th to January 29th: Open every day on-site at Pilot Bay Beach 10 am till late</ThemedText>
+            <View style={styles.hoursContainer}>
+              <View style={styles.hourRow}>
+                <ThemedText style={styles.dayText}>Monday - Friday</ThemedText>
+                <ThemedText style={styles.timeText}>9:00 AM - 5:00 PM</ThemedText>
+              </View>
+              <View style={styles.hourRow}>
+                <ThemedText style={styles.dayText}>Saturday & Sunday</ThemedText>
+                <ThemedText style={styles.timeText}>10:00 AM - 6:00 PM</ThemedText>
+              </View>
+              <View style={styles.hourRow}>
+                <ThemedText style={styles.dayText}>Public Holidays</ThemedText>
+                <ThemedText style={styles.timeText}>10:00 AM - 4:00 PM</ThemedText>
+              </View>
             </View>
           </View>
 
-          {/* Location Section */}
-          <View style={styles.locationSection}>
-            <ThemedText style={styles.sectionTitle}>Find Us</ThemedText>
-            <View style={styles.contactItem}>
-              <ThemedText style={styles.contactLabel}>Address:</ThemedText>
-              <ThemedText style={styles.contactText}>Pilot Bay (Mount End) Beach, Mount Maunganui</ThemedText>
+          {/* Contact Info Section */}
+          <View style={styles.contactSection}>
+            <ThemedText style={styles.sectionTitle}>Contact Us</ThemedText>
+            <View style={styles.contactContent}>
+              <ThemedText style={styles.contactText}>
+                📍 Pilot Bay (Mount End) Beach, Mount Maunganui
+              </ThemedText>
+              <ThemedText style={styles.contactText}>
+                📧 Email: admin@aqua360.co.nz
+              </ThemedText>
+              <ThemedText style={styles.contactText}>
+                📱 Phone: 021 2782 360
+              </ThemedText>
             </View>
-            <View style={styles.contactItem}>
-              <ThemedText style={styles.contactLabel}>Email:</ThemedText>
-              <ThemedText style={styles.contactText}>admin@aqua360.co.nz</ThemedText>
-            </View>
-            <View style={styles.contactItem}>
-              <ThemedText style={styles.contactLabel}>Phone:</ThemedText>
-              <ThemedText style={styles.contactText}>021 2782 360</ThemedText>
-            </View>
-          </View>
-
-          {/* Safety Information */}
-          <View style={styles.safetySection}>
-            <ThemedText style={styles.sectionTitle}>Safety First</ThemedText>
-            <ThemedText style={styles.safetyText}>
-              Always plan water activities with safety in mind. At AQUA 360°, we focus on your safety 
-              so you can focus on the fun!
-            </ThemedText>
           </View>
         </View>
       </ScrollView>
@@ -189,24 +170,24 @@ export default function AboutUsScreen() {
 }
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#52D6E2',
+    backgroundColor: '#52D6E2',  // Updated to match the home page background color
   },
   scrollView: {
     flex: 1,
-    backgroundColor: '#52D6E2',
+    backgroundColor: '#52D6E2',  // Updated to match the home page background color
   },
   scrollViewContent: {
-    flexGrow: 1,
     paddingBottom: 30,
   },
   container: {
     flex: 1,
     alignItems: 'center',
-    width: '100%',
+    backgroundColor: '#52D6E2',  // Updated to match the home page background color
   },
   // Glass effect styles
   glassEffect: {
@@ -223,25 +204,13 @@ const styles = StyleSheet.create({
   noRadius: {
     borderRadius: 0,
   },
-  titleSection: {
-    width: '100%',
-    alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 10,
-  },
-  mainTitle: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#21655A',
-    textAlign: 'center',
-  },
   contentSection: {
     width: '90%',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fff',
     borderRadius: 15,
-    padding: 25,
-    marginBottom: 20,
-    shadowColor: "#000",
+    padding: 20,
+    marginTop: 30,
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -249,35 +218,28 @@ const styles = StyleSheet.create({
   },
   contentText: {
     fontSize: 16,
-    lineHeight: 26,
-    color: '#333333',
+    lineHeight: 24,
+    color: '#333',
   },
   carouselSection: {
     width: '100%',
-    marginBottom: 20,
-    paddingLeft: 20,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '700',
-    marginVertical: 15,
-    color: '#21655A',
-    paddingHorizontal: 10,
+    marginTop: 30,
   },
   servicesCarousel: {
     width: '100%',
   },
   servicesContent: {
+    paddingLeft: 20,
     paddingRight: 20,
   },
   serviceCard: {
-    width: 200,
-    height: 150,
+    width: windowWidth * 0.8,  // Increased from typical 0.6 or 0.7
+    height: 220, // Increased from typical 180 or 200
     marginRight: 15,
-    borderRadius: 10,
+    borderRadius: 15,
     overflow: 'hidden',
-    position: 'relative',
-    shadowColor: "#000",
+    backgroundColor: '#fff',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
@@ -286,89 +248,78 @@ const styles = StyleSheet.create({
   serviceImage: {
     width: '100%',
     height: '100%',
+    resizeMode: 'cover',
   },
   serviceOverlay: {
     position: 'absolute',
     bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'rgba(33, 101, 90, 0.7)',
-    padding: 10,
+    width: '100%',
+    backgroundColor: 'rgba(33, 101, 90, 0.8)',
+    paddingVertical: 12,
+    paddingHorizontal: 15,
   },
   serviceTitle: {
-    color: '#ffffff',
-    fontSize: 16,
+    color: '#fff',
+    fontSize: 18,
     fontWeight: '600',
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#21655A',
+    marginBottom: 15,
     textAlign: 'center',
   },
   hoursSection: {
     width: '90%',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fff',
     borderRadius: 15,
     padding: 20,
-    marginBottom: 20,
-    shadowColor: "#000",
+    marginTop: 30,
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
-  hourItem: {
-    marginBottom: 15,
+  hoursContainer: {
+    width: '100%',
   },
-  hourTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#21655A',
-    marginBottom: 5,
-  },
-  hourText: {
-    fontSize: 15,
-    color: '#555555',
-    marginLeft: 10,
-  },
-  locationSection: {
-    width: '90%',
-    backgroundColor: '#ffffff',
-    borderRadius: 15,
-    padding: 20,
-    marginBottom: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  contactItem: {
+  hourRow: {
     flexDirection: 'row',
-    marginBottom: 10,
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+    paddingVertical: 12,
   },
-  contactLabel: {
+  dayText: {
     fontSize: 16,
-    fontWeight: '600',
+    color: '#333',
+    fontWeight: '500',
+  },
+  timeText: {
+    fontSize: 16,
     color: '#21655A',
-    width: 70,
+    fontWeight: '600',
+  },
+  contactSection: {
+    width: '90%',
+    backgroundColor: '#fff',
+    borderRadius: 15,
+    padding: 20,
+    marginTop: 30,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  contactContent: {
+    alignItems: 'flex-start',
   },
   contactText: {
     fontSize: 16,
-    color: '#555555',
-    flex: 1,
-  },
-  safetySection: {
-    width: '90%',
-    backgroundColor: '#ffffff',
-    borderRadius: 15,
-    padding: 20,
-    marginBottom: 30,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  safetyText: {
-    fontSize: 16,
-    lineHeight: 24,
-    color: '#555555',
+    color: '#333',
+    marginBottom: 12,
   },
 });

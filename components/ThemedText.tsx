@@ -20,9 +20,9 @@ export function ThemedText({
   return (
     <Text
       style={[
-        { color },
+        { color: color as string },
         styles[type],
-        type === 'link' ? { color: tintColor } : undefined,
+        type === 'link' ? { color: tintColor as string } : undefined,
         style,
       ]}
       {...rest}

@@ -5,12 +5,7 @@ import { BlurView } from 'expo-blur';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-
-// Review card component
-interface ReviewCardProps {
-  text: string;
-  author: string;
-}
+import ReviewCard from '@/components/ui/ReviewCard';
 
 // Glass effect component
 interface GlassBackgroundProps {
@@ -53,16 +48,6 @@ function GlassBackground({ style, intensity = 50, children, noRadius = false }: 
   }
 }
 
-// Glass review card component
-function ReviewCard({ text, author }: ReviewCardProps) {
-  return (
-    <GlassBackground style={styles.reviewCard} intensity={60}>
-      <ThemedText style={styles.reviewText}>{text}</ThemedText>
-      <ThemedText style={styles.reviewAuthor}>- {author}</ThemedText>
-    </GlassBackground>
-  );
-}
-
 export default function HomeScreen() {
   // Navigation handlers
   const handleLogin = () => {
@@ -81,12 +66,12 @@ export default function HomeScreen() {
     router.push('/waiver');
   };
 
-  const handleAiAssistant = () => {
+  const handleAiAssist = () => {
     router.push('/ai-assist');
   };
 
-  const handleBookNow = () => {
-    router.push('/customize');
+  const handleBooking = () => {
+    router.push('/booking');
   };
 
   return (
@@ -111,7 +96,6 @@ export default function HomeScreen() {
             <Image 
               source={require('../../assets/images/about-us-image.webp')}
               style={styles.aboutUsImage}
-              resizeMode="cover"
             />
             <GlassBackground style={styles.aboutUsTextContainer} intensity={40}>
               <ThemedText style={styles.aboutUsButtonText}>About Us</ThemedText>
@@ -127,14 +111,14 @@ export default function HomeScreen() {
               <ThemedText style={styles.actionButtonText}>Waiver</ThemedText>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.actionButton} onPress={handleAiAssistant}>
+            <TouchableOpacity style={styles.actionButton} onPress={handleAiAssist}>
               <View style={styles.buttonIconPlaceholder}>
                 <ThemedText style={styles.buttonIcon}>🤖</ThemedText>
               </View>
               <ThemedText style={styles.actionButtonText}>AI Assistant</ThemedText>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.actionButton} onPress={handleBookNow}>
+            <TouchableOpacity style={styles.actionButton} onPress={handleBooking}>
               <View style={styles.buttonIconPlaceholder}>
                 <ThemedText style={styles.buttonIcon}>📅</ThemedText>
               </View>
@@ -150,6 +134,9 @@ export default function HomeScreen() {
               showsHorizontalScrollIndicator={false}
               style={styles.reviewsCarousel}
               contentContainerStyle={styles.reviewsContent}
+              snapToInterval={windowWidth * 0.85} // Snap to card width + margin
+              decelerationRate="fast"
+              pagingEnabled={false}
             >
               <ReviewCard 
                 text="Amazing experience with Aqua 360! The jet ski tour was the highlight of our vacation. Highly recommended!" 
@@ -164,6 +151,11 @@ export default function HomeScreen() {
                 author="Mike L."
               />
             </ScrollView>
+            <View style={styles.paginationDots}>
+              {[0, 1, 2].map((_, index) => (
+                <View key={index} style={styles.paginationDot} />
+              ))}
+            </View>
           </ThemedView>
           
           {/* Flexible spacer to push footer to the bottom */}
@@ -277,7 +269,7 @@ const styles = StyleSheet.create({
   },
   aboutUsButton: {
     width: '90%',
-    height: windowHeight * 0.25,
+    height: windowHeight * 0.25, 
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 30,
@@ -290,11 +282,13 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     overflow: 'hidden',
     position: 'relative',
+    backgroundColor: '#21655A', // Add background color in case image doesn't load
   },
   aboutUsImage: {
     width: '100%',
     height: '100%',
     position: 'absolute',
+    resizeMode: 'cover', // Move resizeMode here from the style
   },
   aboutUsTextContainer: {
     paddingVertical: 10,
@@ -354,61 +348,66 @@ const styles = StyleSheet.create({
     fontSize: 18,
     flex: 1,
   },
+  // Review carousel styles
   carouselSection: {
+    marginTop: 30,
     width: '100%',
-    marginTop: 10,
-    marginBottom: 20, // Reduced margin
-    paddingLeft: 20,
-    paddingTop: 15,
-    paddingBottom: 15,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.5)',
-    backgroundColor: '#52D6E2', // Changed to match page background
+    paddingBottom: 30,
   },
   sectionTitle: {
-    fontSize: 24, // Larger title
+    fontSize: 22,
     fontWeight: '700',
     marginBottom: 15,
-    paddingHorizontal: 10,
-    color: '#21655A', // Changed to match button green
+    textAlign: 'center',
+    color: '#21655A',
   },
   reviewsCarousel: {
     width: '100%',
+    maxHeight: 250,
   },
   reviewsContent: {
-    paddingRight: 20,
-    paddingBottom: 15,
+    paddingHorizontal: 20,
+    paddingBottom: 10,
   },
   reviewCard: {
-    width: windowWidth * 0.75,
+    width: windowWidth * 0.8,  // 80% of screen width for better fit
     marginRight: 15,
     padding: 20,
     borderRadius: 15,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.8)',
-    backgroundColor: '#ffffff', // Changed to solid white
-    shadowColor: "#000",
+    justifyContent: 'space-between',
+    minHeight: 180,
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 3,
   },
   reviewText: {
-    fontSize: 15, // Slightly larger font
+    color: '#21655A',
+    fontSize: 16,
+    fontWeight: '400',
     lineHeight: 22,
     marginBottom: 15,
-    fontStyle: 'italic',
-    color: '#21655A', // Changed to match button green
-    textShadowColor: 'transparent', // Removed text shadow
-    textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 0,
   },
   reviewAuthor: {
-    fontSize: 15,
+    color: '#21655A',
+    fontSize: 14,
     fontWeight: '700',
     textAlign: 'right',
-    color: '#21655A', // Changed to match button green
+  },
+  paginationDots: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 15,
+  },
+  paginationDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginHorizontal: 4,
+    backgroundColor: '#21655A',
+    opacity: 0.6,
   },
   flexSpacer: {
     flex: 1, // This will push the footer to the bottom

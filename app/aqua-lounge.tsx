@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
-import { Stack } from 'expo-router';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -8,17 +7,8 @@ import { ThemedView } from '@/components/ThemedView';
 export default function AquaLoungeScreen() {
   return (
     <>
-      <Stack.Screen options={{ 
-        title: 'Aqua Lounge',
-        headerStyle: {
-          backgroundColor: '#0077CC',
-        },
-        headerTintColor: '#fff'
-      }} />
-      
       <ScrollView style={styles.scrollView}>
         <ThemedView style={styles.container}>
-          <ThemedText type="title" style={styles.title}>AQUA LOUNGE</ThemedText>
           
           <ThemedView style={styles.imageContainer}>
             {/* Placeholder for image - you can add actual images later */}
@@ -32,24 +22,24 @@ export default function AquaLoungeScreen() {
           </ThemedText>
           
           <ThemedView style={styles.featuresContainer}>
-            <ThemedText type="title" style={styles.sectionTitle}>Aqua Lounge Features:</ThemedText>
+            <ThemedText type="heading2" style={styles.sectionTitle}>Aqua Lounge Features:</ThemedText>
             
             <ThemedView style={styles.featureCard}>
-              <ThemedText type="title" style={styles.featureTitle}>Beach Dome & BBQ</ThemedText>
+              <ThemedText type="heading3" style={styles.featureTitle}>Beach Dome & BBQ</ThemedText>
               <ThemedText style={styles.featureDesc}>
                 Enjoy our comfortable beach dome setup with BBQ facilities, perfect for family gatherings and corporate events.
               </ThemedText>
             </ThemedView>
             
             <ThemedView style={styles.featureCard}>
-              <ThemedText type="title" style={styles.featureTitle}>Relaxation Zone</ThemedText>
+              <ThemedText type="heading3" style={styles.featureTitle}>Relaxation Zone</ThemedText>
               <ThemedText style={styles.featureDesc}>
                 Comfortable seating area to relax before or after your water adventure.
               </ThemedText>
             </ThemedView>
             
             <ThemedView style={styles.featureCard}>
-              <ThemedText type="title" style={styles.featureTitle}>Event Setup</ThemedText>
+              <ThemedText type="heading3" style={styles.featureTitle}>Event Setup</ThemedText>
               <ThemedText style={styles.featureDesc}>
                 Let Aqua 360° take care of the setup and pack down of your event. Have fun on the beach with jet ski hire, beach dome & BBQ, all included!
               </ThemedText>
