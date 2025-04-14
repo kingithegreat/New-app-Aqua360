@@ -104,6 +104,11 @@ export default function AboutUsScreen() {
         scrollEventThrottle={16}
       >
         <View style={styles.container}>
+          {/* Title Section */}
+          <View style={styles.titleSection}>
+            <ThemedText style={styles.mainTitle}>About Us</ThemedText>
+          </View>
+
           {/* About Us Content Section with white background */}
           <View style={styles.contentSection}>
             <ThemedText style={styles.contentText}>
@@ -203,6 +208,17 @@ const styles = StyleSheet.create({
   },
   noRadius: {
     borderRadius: 0,
+  },
+  titleSection: {
+    width: '90%',
+    marginTop: 30,
+    marginBottom: 10,
+  },
+  mainTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#21655A',
+    textAlign: 'center',
   },
   contentSection: {
     width: '90%',
