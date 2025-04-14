@@ -353,6 +353,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     width: '100%',
     paddingBottom: 30,
+    backgroundColor: 'transparent', // Make the background transparent
   },
   sectionTitle: {
     fontSize: 22,
