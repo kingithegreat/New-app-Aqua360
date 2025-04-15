@@ -430,21 +430,23 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
+    color: '#21655A', // Updated: Using app's primary color
   },
   modalDescription: {
     fontSize: 16,
     marginBottom: 15,
     textAlign: 'center',
     lineHeight: 24,
+    color: '#333333', // Updated: Darker text for better readability
   },
   modalPrice: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#0066cc',
+    color: '#21655A', // Updated: Changed from blue to match app theme
     marginBottom: 20,
   },
   closeButton: {
-    backgroundColor: '#0066cc',
+    backgroundColor: '#21655A', // Updated: Changed from blue to match app theme
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 25,

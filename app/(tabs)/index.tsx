@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, View, Image, Dimensions, Platform } from 'react-native';
-import { Link, router } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import { BlurView } from 'expo-blur';
 
 import { ThemedText } from '@/components/ThemedText';
@@ -74,6 +74,16 @@ export default function HomeScreen() {
     router.push('/booking');
   };
 
+  const handleSeeAllReviews = () => {
+    router.push('/reviews');
+  };
+
+  const reviews = [
+    { author: 'Alice', text: 'Great experience! Highly recommend.', rating: 5 },
+    { author: 'Bob', text: 'Nice place, friendly staff.', rating: 4 },
+    { author: 'Charlie', text: 'Amazing views and fun activities.', rating: 5 },
+  ];
+
   return (
     <SafeAreaView style={styles.safeArea}>
       {/* Header Section - no rounded borders */}
@@ -126,36 +136,28 @@ export default function HomeScreen() {
             </TouchableOpacity>
           </View>
 
-          {/* Reviews Carousel Section - With white background and green text */}
-          <ThemedView style={styles.carouselSection}>
-            <ThemedText type="title" style={styles.sectionTitle}>Customer Reviews</ThemedText>
-            <ScrollView 
-              horizontal 
+          {/* Reviews Section */}
+          <ThemedView style={styles.reviewsSection}>
+            <TouchableOpacity onPress={handleSeeAllReviews}>
+              <ThemedText type="heading2" style={styles.sectionTitle}>
+                Customer Reviews
+              </ThemedText>
+            </TouchableOpacity>
+            <ScrollView
+              horizontal
               showsHorizontalScrollIndicator={false}
               style={styles.reviewsCarousel}
               contentContainerStyle={styles.reviewsContent}
-              snapToInterval={windowWidth * 0.85} // Snap to card width + margin
-              decelerationRate="fast"
-              pagingEnabled={false}
             >
-              <ReviewCard 
-                text="Amazing experience with Aqua 360! The jet ski tour was the highlight of our vacation. Highly recommended!" 
-                author="Sarah M."
-              />
-              <ReviewCard 
-                text="The staff was extremely helpful and the equipment was top-notch. Will definitely be coming back next summer!" 
-                author="John D."
-              />
-              <ReviewCard 
-                text="The Aqua Lounge was perfect for our family gathering. The kids loved the jet skis and the BBQ setup was great!" 
-                author="Mike L."
-              />
-            </ScrollView>
-            <View style={styles.paginationDots}>
-              {[0, 1, 2].map((_, index) => (
-                <View key={index} style={styles.paginationDot} />
+              {reviews.map((review, index) => (
+                <ReviewCard
+                  key={index}
+                  text={review.text}
+                  author={review.author}
+                  rating={review.rating}
+                />
               ))}
-            </View>
+            </ScrollView>
           </ThemedView>
           
           {/* Flexible spacer to push footer to the bottom */}
@@ -349,18 +351,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   // Review carousel styles
-  carouselSection: {
-    marginTop: 30,
-    width: '100%',
-    paddingBottom: 30,
-    backgroundColor: 'transparent', // Make the background transparent
+  reviewsSection: {
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+    backgroundColor: '#f8f8f8',
   },
   sectionTitle: {
-    fontSize: 22,
-    fontWeight: '700',
     marginBottom: 15,
     textAlign: 'center',
-    color: '#21655A',
+    color: '#005662',
   },
   reviewsCarousel: {
     width: '100%',
@@ -369,32 +368,6 @@ const styles = StyleSheet.create({
   reviewsContent: {
     paddingHorizontal: 20,
     paddingBottom: 10,
-  },
-  reviewCard: {
-    width: windowWidth * 0.8,  // 80% of screen width for better fit
-    marginRight: 15,
-    padding: 20,
-    borderRadius: 15,
-    justifyContent: 'space-between',
-    minHeight: 180,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  reviewText: {
-    color: '#21655A',
-    fontSize: 16,
-    fontWeight: '400',
-    lineHeight: 22,
-    marginBottom: 15,
-  },
-  reviewAuthor: {
-    color: '#21655A',
-    fontSize: 14,
-    fontWeight: '700',
-    textAlign: 'right',
   },
   paginationDots: {
     flexDirection: 'row',

@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   sendButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#21655A', // Changed from #007AFF to match app's green theme
     borderRadius: 20,
     paddingVertical: 8,
     paddingHorizontal: 16,
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   sendButtonDisabled: {
-    backgroundColor: '#B0C4DE',
+    backgroundColor: '#93beab', // Lighter version of the green for disabled state
   },
   sendButtonText: {
     color: 'white',
@@ -284,8 +284,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   confirmButton: {
-    backgroundColor: '#00A86B',
-    borderRadius: 10,
+    backgroundColor: '#21655A', // Changed from #00A86B to match app's green theme
+    borderRadius: 25, // Changed to match other buttons in the app
     paddingVertical: 14,
     marginVertical: 10,
     alignItems: 'center',
