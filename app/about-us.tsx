@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, View, ScrollView, SafeAreaView, Image, Dimensions, TouchableOpacity, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, ScrollView, SafeAreaView, Image, Dimensions, TouchableOpacity, Platform, Modal, Pressable } from 'react-native';
 import { router } from 'expo-router';
 import { BlurView } from 'expo-blur';
 
@@ -65,35 +65,86 @@ function ServiceCard({ title, image, onPress }: ServiceCardProps) {
   );
 }
 
+// Service Detail Modal component
+interface ServiceModalProps {
+  visible: boolean;
+  service: any;
+  onClose: () => void;
+}
+
+function ServiceModal({ visible, service, onClose }: ServiceModalProps) {
+  if (!service) return null;
+  
+  return (
+    <Modal
+      animationType="fade"
+      transparent={true}
+      visible={visible}
+      onRequestClose={onClose}
+    >
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalContent}>
+          <Image source={service.image} style={styles.modalImage} />
+          <ThemedText style={styles.modalTitle}>{service.title}</ThemedText>
+          <ThemedText style={styles.modalDescription}>{service.description}</ThemedText>
+          <ThemedText style={styles.modalPrice}>{service.price}</ThemedText>
+          
+          <Pressable style={styles.closeButton} onPress={onClose}>
+            <ThemedText style={styles.closeButtonText}>Close</ThemedText>
+          </Pressable>
+        </View>
+      </View>
+    </Modal>
+  );
+}
+
 export default function AboutUsScreen() {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
+
   // Services data for the carousel
   const services = [
     {
       id: 1,
       title: "Biscuit Hire",
       image: require('../assets/images/biscuir.jpg'),
+      description: "Experience the thrill of riding our biscuit tubes! Perfect for groups and families looking for a fun water activity. Hold on tight as you're pulled behind one of our boats for an exciting ride across the water.",
+      price: "Starting from $50 per 30 minutes",
     },
     {
       id: 2,
       title: "Jetski",
       image: require('../assets/images/Review.png'),
+      description: "Explore the Bay of Plenty on one of our powerful jetskis. Freedom to create your own adventure with our well-maintained and reliable watercrafts. All safety equipment provided.",
+      price: "Starting from $120 per hour",
     },
     {
       id: 3,
       title: "Tours",
       image: require('../assets/images/aqua.webp'),
+      description: "Join our guided tours to discover hidden gems around the Bay of Plenty. Visit secluded beaches, see marine wildlife, and learn about the local history and ecosystem from our experienced guides.",
+      price: "Starting from $180 per person",
     },
     {
       id: 4,
       title: "Wakeboard & Water Skis",
       image: require('../assets/images/skis.jpg'),
+      description: "Whether you're a beginner or an experienced rider, our wakeboarding and water skiing equipment caters to all skill levels. Our instructors are available to help you learn or improve your technique.",
+      price: "Starting from $60 per hour",
     },
     {
       id: 5,
       title: "Fishing",
       image: require('../assets/images/fishing.jpg'),
+      description: "Join us for an unforgettable fishing experience in some of the best spots in the Bay of Plenty. All fishing gear provided. Our knowledgeable guides know exactly where to find the best catch.",
+      price: "Starting from $150 per person",
     }
   ];
+
+  const handleServicePress = (service) => {
+    setSelectedService(service);
+    setModalVisible(true);
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -129,6 +180,7 @@ export default function AboutUsScreen() {
                   key={service.id}
                   title={service.title}
                   image={service.image}
+                  onPress={() => handleServicePress(service)}
                 />
               ))}
             </ScrollView>
@@ -170,6 +222,13 @@ export default function AboutUsScreen() {
           </View>
         </View>
       </ScrollView>
+
+      {/* Service Detail Modal */}
+      <ServiceModal 
+        visible={modalVisible}
+        service={selectedService}
+        onClose={() => setModalVisible(false)}
+      />
     </SafeAreaView>
   );
 }
@@ -249,17 +308,16 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   serviceCard: {
-    width: windowWidth * 0.8,  // Increased from typical 0.6 or 0.7
-    height: 220, // Increased from typical 180 or 200
-    marginRight: 15,
-    borderRadius: 15,
+    width: 250,
+    height: 180,
+    marginRight: 20,
+    borderRadius: 12,
     overflow: 'hidden',
-    backgroundColor: '#fff',
+    elevation: 5,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   serviceImage: {
     width: '100%',
@@ -269,15 +327,16 @@ const styles = StyleSheet.create({
   serviceOverlay: {
     position: 'absolute',
     bottom: 0,
-    width: '100%',
-    backgroundColor: 'rgba(33, 101, 90, 0.8)',
-    paddingVertical: 12,
-    paddingHorizontal: 15,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    padding: 10,
   },
   serviceTitle: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   sectionTitle: {
     fontSize: 20,
@@ -337,5 +396,63 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
     marginBottom: 12,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
+  modalContent: {
+    width: '85%',
+    backgroundColor: 'white',
+    borderRadius: 15,
+    padding: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  modalImage: {
+    width: '100%',
+    height: 200,
+    borderRadius: 8,
+    marginBottom: 15,
+    resizeMode: 'cover',
+  },
+  modalTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  modalDescription: {
+    fontSize: 16,
+    marginBottom: 15,
+    textAlign: 'center',
+    lineHeight: 24,
+  },
+  modalPrice: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#0066cc',
+    marginBottom: 20,
+  },
+  closeButton: {
+    backgroundColor: '#0066cc',
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 25,
+    marginTop: 10,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

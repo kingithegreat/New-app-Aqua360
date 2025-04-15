@@ -17,14 +17,14 @@ export default function CustomizeScreen() {
   
   const [duration, setDuration] = useState(1); // hours
   
-  const toggleOption = (option) => {
+  const toggleOption = (option: keyof typeof selectedOptions) => {
     setSelectedOptions(prev => ({
       ...prev,
       [option]: !prev[option]
     }));
   };
   
-  const changeDuration = (amount) => {
+  const changeDuration = (amount: number) => {
     const newDuration = duration + amount;
     if (newDuration >= 1 && newDuration <= 8) {
       setDuration(newDuration);
@@ -56,14 +56,14 @@ export default function CustomizeScreen() {
       
       <ScrollView style={styles.scrollView}>
         <ThemedView style={styles.container}>
-          <ThemedText type="title" style={styles.title}>CUSTOMISE YOUR ADVENTURE</ThemedText>
+          <ThemedText type="heading1" style={styles.title}>CUSTOMISE YOUR ADVENTURE</ThemedText>
           
           <ThemedText style={styles.description}>
             Mix and match to create the ultimate experience just for you. Choose from our range of watersport accessories to accompany your jet ski hire.
           </ThemedText>
           
           <ThemedView style={styles.durationContainer}>
-            <ThemedText type="title" style={styles.sectionTitle}>Duration:</ThemedText>
+            <ThemedText type="heading2" style={styles.sectionTitle}>Duration:</ThemedText>
             <ThemedView style={styles.durationControls}>
               <TouchableOpacity 
                 style={[styles.durationButton, duration === 1 && styles.durationButtonDisabled]} 
@@ -84,7 +84,7 @@ export default function CustomizeScreen() {
           </ThemedView>
           
           <ThemedView style={styles.optionsContainer}>
-            <ThemedText type="title" style={styles.sectionTitle}>Options:</ThemedText>
+            <ThemedText type="heading2" style={styles.sectionTitle}>Options:</ThemedText>
             
             <Option 
               title="Jet Ski Hire" 
@@ -137,7 +137,7 @@ export default function CustomizeScreen() {
           </ThemedView>
           
           <ThemedView style={styles.totalContainer}>
-            <ThemedText type="title" style={styles.totalText}>
+            <ThemedText type="heading2" style={styles.totalText}>
               Estimated Total: ${calculatePrice()}
             </ThemedText>
             <ThemedText style={styles.taxNote}>
@@ -155,11 +155,20 @@ export default function CustomizeScreen() {
 }
 
 // Option component for each customizable item
-function Option({ title, description, price, selected, onToggle, disabled = false }) {
+interface OptionProps {
+  title: string;
+  description: string;
+  price: string;
+  selected: boolean;
+  onToggle: () => void;
+  disabled?: boolean;
+}
+
+function Option({ title, description, price, selected, onToggle, disabled = false }: OptionProps) {
   return (
     <ThemedView style={[styles.optionCard, selected && styles.selectedOption]}>
       <ThemedView style={styles.optionInfo}>
-        <ThemedText type="title" style={styles.optionTitle}>{title}</ThemedText>
+        <ThemedText type="heading3" style={styles.optionTitle}>{title}</ThemedText>
         <ThemedText style={styles.optionDesc}>{description}</ThemedText>
         <ThemedText style={styles.optionPrice}>{price}</ThemedText>
       </ThemedView>
