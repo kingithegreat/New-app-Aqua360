@@ -91,9 +91,9 @@ export default function AIAssistScreen() {
       >
         <View style={styles.container}>
           {/* Title Section */}
-          <View style={styles.titleSection}>
-            <ThemedText style={styles.mainTitle}>AI Assistant</ThemedText>
-          </View>
+          <GlassBackground style={styles.titleContainer}>
+            <ThemedText style={styles.title}>AI Assistant</ThemedText>
+          </GlassBackground>
 
           {/* Chat History Display */}
           <View style={styles.chatHistoryContainer}>
@@ -112,7 +112,10 @@ export default function AIAssistScreen() {
                     message.type === 'user' ? styles.userMessage : styles.aiMessage
                   ]}
                 >
-                  <ThemedText style={styles.messageText}>{message.message}</ThemedText>
+                  <ThemedText style={[
+                    styles.messageText,
+                    message.type === 'user' ? styles.userMessageText : styles.aiMessageText
+                  ]}>{message.message}</ThemedText>
                 </View>
               ))
             )}
@@ -169,14 +172,20 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#52D6E2',
   },
-  titleSection: {
+  titleContainer: {
     marginBottom: 20,
-    alignItems: 'center',
+    padding: 16,
+    borderRadius: 15,
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
   },
-  mainTitle: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    marginBottom: 10,
+  title: {
+    fontSize: 28,
+    fontWeight: '700',
+    textAlign: 'center',
+    color: '#005662',
+    textShadowColor: 'rgba(0, 0, 0, 0.1)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   chatHistoryContainer: {
     flex: 1,
@@ -192,52 +201,71 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   emptyResponseText: {
-    fontSize: 16,
+    fontSize: 18,
     textAlign: 'center',
-    color: '#555',
+    color: '#333',
+    fontWeight: '500',
   },
   messageBubble: {
-    padding: 12,
+    padding: 16,
     borderRadius: 18,
-    marginBottom: 12,
-    maxWidth: '80%',
+    marginBottom: 16,
+    maxWidth: '85%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 1,
+    elevation: 2,
   },
   userMessage: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#0064BD',
     alignSelf: 'flex-end',
   },
   aiMessage: {
-    backgroundColor: '#E5E5EA',
+    backgroundColor: '#F5F5F7',
     alignSelf: 'flex-start',
+    borderColor: '#E0E0E5',
+    borderWidth: 1,
   },
   messageText: {
-    fontSize: 16,
+    fontSize: 17,
+    lineHeight: 24,
+  },
+  userMessageText: {
+    color: '#FFFFFF',
+  },
+  aiMessageText: {
+    color: '#222222',
   },
   loadingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'flex-start',
-    padding: 8,
+    padding: 10,
     borderRadius: 12,
-    backgroundColor: 'rgba(200, 200, 200, 0.4)',
+    backgroundColor: 'rgba(230, 230, 230, 0.7)',
   },
   loadingText: {
     marginLeft: 8,
-    fontSize: 14,
-    color: '#555',
+    fontSize: 16,
+    color: '#333',
+    fontWeight: '500',
   },
   promptInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'white',
     borderRadius: 25,
-    padding: 5,
+    padding: 8,
     marginBottom: 20,
+    borderColor: '#DDD',
+    borderWidth: 1,
   },
   promptInput: {
     flex: 1,
-    fontSize: 16,
-    padding: 10,
+    fontSize: 17,
+    padding: 12,
+    color: '#333',
   },
   sendButton: {
     backgroundColor: '#007AFF',

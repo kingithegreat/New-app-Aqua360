@@ -69,6 +69,9 @@ export default function WaiverScreen() {
   const tintColor = useThemeColor({}, 'tint');
   const textColor = useThemeColor({}, 'text');
 
+  // Convert tintColor to string to fix type error
+  const checkboxColor = typeof tintColor === 'string' ? tintColor : '#005662';
+
   const handleConfirm = () => {
     if (isChecked) {
       // Navigate back to home
@@ -130,7 +133,7 @@ By checking the box below, I acknowledge that I have read this waiver, understan
               style={styles.checkbox}
               value={isChecked}
               onValueChange={setIsChecked}
-              color={isChecked ? tintColor : undefined}
+              color={isChecked ? checkboxColor : undefined}
             />
             <ThemedText style={styles.checkboxLabel}>
               I confirm that I have read and agree to the waiver terms
@@ -179,11 +182,21 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     alignSelf: 'center',
     marginBottom: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.85)', // Increased opacity for better contrast
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 28, // Increased from 24 to 28
+    fontWeight: '700', // Changed from 'bold' to '700' for consistency and better weight
     textAlign: 'center',
+    color: '#005662', // Added specific color for better contrast against the glass background
+    textShadowColor: 'rgba(255, 255, 255, 0.8)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
   waiverContainer: {
     width: '100%',
