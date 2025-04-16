@@ -226,6 +226,7 @@ export default function BookingScreen() {
         {selectedService === 'jetski' && (
           <View style={styles.section}>
             <ThemedText type="heading2" style={styles.sectionTitle}>Number of Jet Skis</ThemedText>
+            <ThemedText style={styles.labelText}>Select how many jet skis you want to book:</ThemedText>
             <View style={styles.quantitySelector}>
               <TouchableOpacity 
                 style={styles.quantityButton}
@@ -238,7 +239,9 @@ export default function BookingScreen() {
                   color={jetSkiCount <= 1 ? '#ccc' : Colors.light.palette.secondary.main} 
                 />
               </TouchableOpacity>
-              <ThemedText type="heading2" style={styles.quantityText}>{jetSkiCount}</ThemedText>
+              <View style={styles.quantityTextContainer}>
+                <ThemedText style={styles.jetSkiCountText}>{jetSkiCount}</ThemedText>
+              </View>
               <TouchableOpacity 
                 style={styles.quantityButton}
                 onPress={incrementJetSkis}
@@ -553,9 +556,41 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  quantityTextContainer: {
+    backgroundColor: 'rgba(33, 101, 90, 0.1)', // Light green background matching the theme
+    borderRadius: 12,
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    marginHorizontal: 16,
+    borderWidth: 2,
+    borderColor: 'rgba(33, 101, 90, 0.3)',
+    minWidth: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
   quantityText: {
     marginHorizontal: 20,
     fontSize: 24,
+  },
+  jetSkiCountText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#21655A', // Darker color
+    textAlign: 'center',
+  },
+  labelText: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 8,
+    color: '#21655A', // Changed to darker green for better contrast
+    textShadowColor: 'rgba(255, 255, 255, 0.7)', // Adding text shadow for better readability
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
   addOnContainer: {
     gap: 12,
