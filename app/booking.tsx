@@ -18,6 +18,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from '../components/ThemedText';
 import { ThemedView } from '../components/ThemedView';
 import { Colors } from '../constants/Colors';
+import { addData } from '../firebase/firebaseConfig'; // Import Firebase functions
 
 export default function BookingScreen() {
   const router = useRouter();
@@ -127,6 +128,18 @@ export default function BookingScreen() {
     const ref = 'BK-' + Math.floor(100000 + Math.random() * 900000);
     setBookingReference(ref);
     setShowConfirmation(true);
+
+    // Save booking to Firestore
+    const bookingData = {
+      date: formatDate(selectedDate),
+      time: formatTime(selectedTime),
+      service: selectedService,
+      jetSkiCount: selectedService === 'jetski' ? jetSkiCount : null,
+      addOns: addOns.filter(addon => addon.selected).map(addon => addon.name),
+      total: calculateTotal(),
+      reference: ref,
+    };
+    addData('bookings', bookingData);
   };
   
   // Service card component

@@ -79,10 +79,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: 'space-between',
     minHeight: 180,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
+    // Replace deprecated shadow* properties with boxShadow
+    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.25)',
     elevation: 7,
     backgroundColor: 'rgba(255, 255, 255, 0.9)', // Increased opacity for white background
   },

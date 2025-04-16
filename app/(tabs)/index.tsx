@@ -6,6 +6,7 @@ import { BlurView } from 'expo-blur';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import ReviewCard from '@/components/ui/ReviewCard';
+import { FirebaseTest } from '@/components/FirebaseTest';
 
 // Glass effect component
 interface GlassBackgroundProps {
@@ -106,6 +107,7 @@ export default function HomeScreen() {
             <Image 
               source={require('../../assets/images/about-us-image.webp')}
               style={styles.aboutUsImage}
+              resizeMode="cover"
             />
             <GlassBackground style={styles.aboutUsTextContainer} intensity={40}>
               <ThemedText style={styles.aboutUsButtonText}>About Us</ThemedText>
@@ -159,6 +161,9 @@ export default function HomeScreen() {
               ))}
             </ScrollView>
           </ThemedView>
+          
+          {/* Firebase Test Component */}
+          <FirebaseTest />
           
           {/* Flexible spacer to push footer to the bottom */}
           <View style={styles.flexSpacer} />
@@ -290,7 +295,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     position: 'absolute',
-    resizeMode: 'cover', // Move resizeMode here from the style
   },
   aboutUsTextContainer: {
     paddingVertical: 10,
@@ -301,9 +305,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 30,
     fontWeight: 'bold',
-    textShadowColor: 'rgba(0, 0, 0, 0.3)',
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 3,
+    textShadow: '1px 1px 3px rgba(0, 0, 0, 0.3)',
   },
   // New styles for action button layout
   actionButtonsWrapper: {
